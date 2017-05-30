@@ -1,6 +1,8 @@
 Mondrian
 ===========================
-Mondrian is a Top-down greedy data anonymization algorithm for relational dataset, proposed by Kristen LeFevre in his papers[1]. To our knowledge, Mondrian is the fastest local recording algorithm, which preserve good data utility at the same time. Although LeFevre gave the pseudocode in his papers, the original source code is not available. You can find the third part Java implementation in Anonymization Toolbox[2].
+! Copied from the README of https://github.com/qiyuangong/Mondrian:
+
+"Mondrian is a Top-down greedy data anonymization algorithm for relational dataset, proposed by Kristen LeFevre in his papers[1]. To our knowledge, Mondrian is the fastest local recording algorithm, which preserve good data utility at the same time. Although LeFevre gave the pseudocode in his papers, the original source code is not available. You can find the third part Java implementation in Anonymization Toolbox[2].
 
 This repository is an **open source python implementation for Mondrian**. I implement this algorithm in python for further study.
 
@@ -103,4 +105,4 @@ Parameters:
 
 by [Qiyuan Gong](mailto:qiyuangong@gmail.com)
 
-2017-5-23
+2017-5-23"
