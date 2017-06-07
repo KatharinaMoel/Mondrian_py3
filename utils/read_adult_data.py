@@ -10,17 +10,17 @@ read adult dataset
 # 'matrital_status', 'occupation', 'relationship', 'race', 'sex', 'capital_gain',
 # 'capital_loss', 'hours_per_week', 'native_country', 'class']
 # QID ['age', 'workcalss', 'education', 'matrital_status', 'race', 'sex', 'native_country']
-# SA ['occopation']
+# SA ['occupation']
 
 from utils.utility import cmp_str
+from utils import yaml_tools
 
-ATT_NAME = ['age', 'workcalss', 'final_weight', 'education',
-            'education_num', 'marital_status', 'occupation', 'relationship',
-            'race', 'sex', 'capital_gain', 'capital_loss', 'hours_per_week',
-            'native_country', 'class']
-QI_INDEX = [0, 1, 4, 5, 6, 8, 9, 13]
-IS_CAT = [False, True, False, True, True, True, True, True]
-SA_INDEX = -1
+config = yaml_tools.Config(file = 'data/adult.yaml')
+ATT_name = config.attribute_names
+QI_INDEX = config.qi_indices
+IS_CAT = config.is_cat 
+SA_INDEX = config.sa_index
+
 __DEBUG = False
 
 
