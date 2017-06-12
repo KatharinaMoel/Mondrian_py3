@@ -36,7 +36,7 @@ def read_data():
     """
     QI_num = len(QI_INDEX)
     data = []
-    # oder categorical attributes in intuitive order
+    # order categorical attributes in intuitive order
     # here, we use the appear number
     intuitive_dict = []
     intuitive_order = []

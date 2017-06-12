@@ -2,6 +2,25 @@ import yaml
 import os
 
 class Config(object):
+    ''' Class to store column data about the used dataset (column names and types, which to use as 
+        quasi-identifiers etc.. YAML format must be this way:
+                columns:
+                    -   name: age
+                        index: 0
+                        is_qi: True
+                        is_sensible: False
+                        type: number
+                    -   name: workclass
+                        index: 1
+                        is_qi: True
+                        is_sensible: False
+                        type: category
+                    -   name: final_weight
+                        index: 2
+                        is_qi: False
+                        is_sensible: False
+                        type: number
+    '''
     def __init__(self, data = None, file = None):
         self.data = data
         if file:

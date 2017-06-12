@@ -124,6 +124,7 @@ def find_median(partition, dim):
     """
     # use frequency set to get median
     frequency = frequency_set(partition, dim)
+    #print('\nfrequency set: \n %s' %frequency)
     splitVal = ''
     nextVal = ''
     value_list = list(frequency.keys())
@@ -160,6 +161,9 @@ def anonymize_strict(partition):
     recursively partition groups until not allowable
     """
     allow_count = sum(partition.allow)
+    #print('partition allow : %s, \t allow_count: %s' % (partition.allow, allow_count))
+    #print('\t allow count: %s' %allow_count)
+    #print('partition: \n%s' %partition.member)
     # only run allow_count times
     if allow_count == 0:
         RESULT.append(partition)
@@ -294,11 +298,12 @@ def init(data, k, QI_num=-1):
     for i in range(QI_LEN):
         value_list = list(att_values[i])
         value_list.sort(key=ft.cmp_to_key(cmp_str))
+        print('value list[0] vs [i]: %s %s\n compare:\t %s' % (value_list[0],value_list[i % len(value_list)], cmp_str(value_list[0],value_list[i % len(value_list)])))
         QI_RANGE.append(float(value_list[-1]) - float(value_list[0]))
         QI_ORDER.append(list(value_list))
         for index, qi_value in enumerate(value_list):
             QI_DICT[i][qi_value] = index
-
+    print('\nWHOLE value list:\n %s' % value_list)
 
 def mondrian(data, k, relax=False, QI_num=-1):
     """

@@ -111,6 +111,24 @@ def get_result_qi(data, k=10):
         print("NCP %0.2f" % eval_result[0] + "%")
         print("Running time %0.2f" % eval_result[1] + " seconds")
 
+def get_result_plot(data, qi_nums, k=10):
+    print('plot!! :)')
+    if not qi_nums:
+        qi_nums = (0, 1)
+    print('qi columns: %s, %s' %(qi_nums[0], qi_nums[1]))
+    data_back = copy.deepcopy(data)
+    result, eval_result = mondrian(data, k, RELAX, 2)
+    print('\n RESULT: \n %s\n' %result[:10])
+    for partiton in result:
+        print('low: %s\t high: %s' %(partition.low, partiton.high))
+    print(eval_result)
+    if DATA_SELECT == 'a':
+        result = covert_to_raw(result)
+        print('\n RESULT converted: \n %s\n' %result[:10])
+    data = copy.deepcopy(data_back)
+    print("NCP %0.2f" % eval_result[0] + "%")
+    print("Running time %0.2f" % eval_result[1] + " seconds")
+
 
 def covert_to_raw(result):
     """
@@ -127,7 +145,7 @@ def covert_to_raw(result):
         for i in range(qi_len):
             if len(INTUITIVE_ORDER[i]) > 0:
                 vtemp = ''
-                if ',' in record[i]:
+                if ',' in str(record[i]):
                     temp = record[i].split(',')
                     raw_list = []
                     for j in range(int(temp[0]), int(temp[1]) + 1):
@@ -183,6 +201,11 @@ if __name__ == '__main__':
         get_result_dataset(DATA)
     elif FLAG == '':
         get_result_one(DATA)
+    elif FLAG == 'plot':
+        qi_nums = None
+        if LEN_ARGV == 6:
+            qi_nums = (sys.argv[4], sys.argv[5])
+        get_result_plot(DATA, qi_nums)
     else:
         try:
             INPUT_K = int(FLAG)
