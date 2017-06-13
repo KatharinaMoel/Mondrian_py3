@@ -112,15 +112,17 @@ def get_result_qi(data, k=10):
         print("Running time %0.2f" % eval_result[1] + " seconds")
 
 def get_result_plot(data, qi_nums, k=10):
+    import matplotlib.pyplot as plt
     print('plot!! :)')
     if not qi_nums:
         qi_nums = (0, 1)
     print('qi columns: %s, %s' %(qi_nums[0], qi_nums[1]))
     data_back = copy.deepcopy(data)
-    result, eval_result = mondrian(data, k, RELAX, 2)
+    result, eval_result, plot_info, x_range, y_range = mondrian(data, k, RELAX, 2, plot=True)
     print('\n RESULT: \n %s\n' %result[:10])
-    for partiton in result:
-        print('low: %s\t high: %s' %(partition.low, partiton.high))
+    print('\n PLOT: \n %s\n' %plot_info)
+    #for partiton in result:
+    #    print('low: %s\t high: %s' %(partition.low, partiton.high))
     print(eval_result)
     if DATA_SELECT == 'a':
         result = covert_to_raw(result)
@@ -128,6 +130,25 @@ def get_result_plot(data, qi_nums, k=10):
     data = copy.deepcopy(data_back)
     print("NCP %0.2f" % eval_result[0] + "%")
     print("Running time %0.2f" % eval_result[1] + " seconds")
+    coords = []
+    plt.rc('lines', linewidth=1.0, color='black')
+    fig = plt.figure()
+    fig_plot = fig.add_subplot(1, 1, 1)
+    #fig_plot.axis([0, 0.5, 0, 0.2])
+    print('\n xrange: \n %s, %s ' % x_range)
+    print('\n yrange: \n %s, %s ' % y_range)
+    for sublist in plot_info:
+        dim, mean, low, high = tuple(sublist)
+        if dim == 0:
+            coords.extend([(mean, low), (mean, high)])
+            #plt.plot([(mean, low), (mean, high)])
+            plt.plot([mean, mean], [low, high], linewidth=1.0)
+        elif dim == 1:
+            coords.extend([(low, mean), (high, mean)])
+            #plt.plot([(low, mean), (high, mean)])
+            plt.plot([low, high], [mean, mean], linewidth=1.0)
+    plt.show()
+    
 
 
 def covert_to_raw(result):

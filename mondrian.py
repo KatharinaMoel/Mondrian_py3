@@ -35,6 +35,7 @@ RESULT = []
 QI_RANGE = []
 QI_DICT = []
 QI_ORDER = []
+PLOT = []
 
 
 class Partition(object):
@@ -156,7 +157,7 @@ def find_median(partition, dim):
     return (splitVal, nextVal, value_list[0], value_list[-1])
 
 
-def anonymize_strict(partition):
+def anonymize_strict(partition, plot = False):
     """
     recursively partition groups until not allowable
     """
@@ -203,9 +204,13 @@ def anonymize_strict(partition):
         if len(lhs) < GL_K or len(rhs) < GL_K:
             partition.allow[dim] = 0
             continue
+        if plot:
+            lowValue = QI_ORDER[dim - 1][partition.low[dim - 1]]
+            highValue = QI_ORDER[dim - 1][partition.high[dim - 1]]
+            PLOT.append([dim, mean, lowValue, highValue])
         # anonymize sub-partition
-        anonymize_strict(lhs)
-        anonymize_strict(rhs)
+        anonymize_strict(lhs, plot)
+        anonymize_strict(rhs, plot)
         return
     RESULT.append(partition)
 
@@ -277,7 +282,7 @@ def init(data, k, QI_num=-1):
     """
     reset global variables
     """
-    global GL_K, RESULT, QI_LEN, QI_DICT, QI_RANGE, QI_ORDER
+    global GL_K, RESULT, QI_LEN, QI_DICT, QI_RANGE, QI_ORDER, PLOT
     if QI_num <= 0:
         QI_LEN = len(data[0]) - 1
     else:
@@ -288,6 +293,7 @@ def init(data, k, QI_num=-1):
     QI_DICT = []
     QI_ORDER = []
     QI_RANGE = []
+    PLOT = []
     att_values = []
     for i in range(QI_LEN):
         att_values.append(set())
@@ -298,14 +304,13 @@ def init(data, k, QI_num=-1):
     for i in range(QI_LEN):
         value_list = list(att_values[i])
         value_list.sort(key=ft.cmp_to_key(cmp_str))
-        print('value list[0] vs [i]: %s %s\n compare:\t %s' % (value_list[0],value_list[i % len(value_list)], cmp_str(value_list[0],value_list[i % len(value_list)])))
         QI_RANGE.append(float(value_list[-1]) - float(value_list[0]))
         QI_ORDER.append(list(value_list))
         for index, qi_value in enumerate(value_list):
             QI_DICT[i][qi_value] = index
     print('\nWHOLE value list:\n %s' % value_list)
 
-def mondrian(data, k, relax=False, QI_num=-1):
+def mondrian(data, k, relax=False, QI_num=-1, plot = False):
     """
     Main function of mondrian, return result in tuple (result, (ncp, rtime)).
     data: dataset in 2-dimensional array.
@@ -327,10 +332,16 @@ def mondrian(data, k, relax=False, QI_num=-1):
     start_time = time.time()
     if relax:
         # relax model
-        anonymize_relaxed(whole_partition)
+        if plot:
+            anonymize_relaxed(whole_partition, plot=True)
+        else:
+            anonymize_relaxed(whole_partition)
     else:
         # strict model
-        anonymize_strict(whole_partition)
+        if plot:
+            anonymize_strict(whole_partition, plot=True)
+        else:
+            anonymize_strict(whole_partition)
     rtime = float(time.time() - start_time)
     # generalization result and
     # evaluation information loss
@@ -372,4 +383,8 @@ def mondrian(data, k, relax=False, QI_num=-1):
         print("NCP = %.2f %%" % ncp)
         # print[len(t) for t in RESULT]
         # pdb.set_trace()
+    if plot:
+        x_range = (QI_ORDER[0][0], QI_ORDER[0][high[0]])
+        y_range = (QI_ORDER[1][0], QI_ORDER[1][high[1]])
+        return (result, (ncp, rtime), PLOT, x_range, y_range)
     return (result, (ncp, rtime))
