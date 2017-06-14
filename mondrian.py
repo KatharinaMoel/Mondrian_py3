@@ -208,6 +208,8 @@ def anonymize_strict(partition, plot = False):
             lowValue = QI_ORDER[dim - 1][partition.low[dim - 1]]
             highValue = QI_ORDER[dim - 1][partition.high[dim - 1]]
             PLOT.append([dim, mean, lowValue, highValue])
+        print('\n lhs: %s - %s \t rhs: %s - %s' %(lhs.low, lhs.high, rhs.low, rhs.high))
+        #pdb.set_trace()
         # anonymize sub-partition
         anonymize_strict(lhs, plot)
         anonymize_strict(rhs, plot)

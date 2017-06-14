@@ -6,7 +6,7 @@ read adult dataset
 # coding=utf-8
 
 # Read data and read tree fuctions for INFORMS data
-# attributes ['age', 'workcalss', 'final_weight', 'education', 'education_num',
+# attributes ['age', 'workclass', 'final_weight', 'education', 'education_num',
 # 'matrital_status', 'occupation', 'relationship', 'race', 'sex', 'capital_gain',
 # 'capital_loss', 'hours_per_week', 'native_country', 'class']
 # QID ['age', 'workcalss', 'education', 'matrital_status', 'race', 'sex', 'native_country']
@@ -15,7 +15,7 @@ read adult dataset
 from utils.utility import cmp_str
 from utils import yaml_tools
 
-config = yaml_tools.Config(file = 'data/adult.yaml')
+config = yaml_tools.Config(file = 'data/adult_plot2.yaml')
 ATT_name = config.attribute_names
 QI_INDEX = config.qi_indices
 IS_CAT = config.is_cat 
@@ -45,7 +45,7 @@ def read_data():
         intuitive_dict.append(dict())
         intuitive_number.append(0)
         intuitive_order.append(list())
-    data_file = open('data/adult.data', 'rU')
+    data_file = open('data/adult_klein.data', 'rU')
     for line in data_file:
         line = line.strip()
         # remove empty and incomplete lines

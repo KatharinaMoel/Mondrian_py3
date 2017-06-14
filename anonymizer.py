@@ -131,10 +131,10 @@ def get_result_plot(data, qi_nums, k=10):
     print("NCP %0.2f" % eval_result[0] + "%")
     print("Running time %0.2f" % eval_result[1] + " seconds")
     coords = []
-    plt.rc('lines', linewidth=1.0, color='black')
+    #plt.rc('lines', linewidth=1.0, color='black')
     fig = plt.figure()
     fig_plot = fig.add_subplot(1, 1, 1)
-    #fig_plot.axis([0, 0.5, 0, 0.2])
+    #fig_plot.axis([x_range[0], x_range[1], y_range[0], y_range[1]])
     print('\n xrange: \n %s, %s ' % x_range)
     print('\n yrange: \n %s, %s ' % y_range)
     for sublist in plot_info:
